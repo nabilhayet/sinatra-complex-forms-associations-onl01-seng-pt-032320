@@ -37,7 +37,7 @@ end
 patch '/pets/:id' do
   @pet = Pet.find_by_id(params[:id])
     if !params[:pet].keys.include?("owner_id")
-      params[:pet]["owner_ids"] = []
+      params[:pet]["owner_id"] = []
     end
     @pet.update(params["pet"])
 
