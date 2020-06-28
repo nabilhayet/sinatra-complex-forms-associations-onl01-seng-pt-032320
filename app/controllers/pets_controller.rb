@@ -36,19 +36,21 @@ end
 
 patch '/pets/:id' do
   @pet = Pet.find_by_id(params[:id])
-  @pet.owner = nil
+  @pet.owner_id = nil
+  @pet.save
     if !params[:pet].keys.include?("owner_ids")
       params[:pet]["owner_ids"] = []
     end
 
   @pet = Pet.find(params[:id])
-  binding.pry
-  @pet.update(params["pet"])
 
-    if !params["owner"]["name"].empty?
+  @pet.update(name: params[:pet]["name"])
+
+    if !params[:owner][:name].empty?
       @pet.owner = Owner.create(name: params[:owner][:name])
-    end
       @pet.save
+    end
+
       redirect to "pets/#{@pet.id}"
   end
 end
