@@ -20,6 +20,7 @@ class OwnersController < ApplicationController
 
   get '/owners/:id/edit' do
     @owner = Owner.find(params[:id])
+    @pets = Pet.all 
     erb :'/owners/edit'
   end
 
@@ -30,6 +31,8 @@ class OwnersController < ApplicationController
 
   patch '/owners/:id' do
     ####### bug fix
+    @owner = Owner.find_by_id(params[:id])
+    @owner.pets.clear
     if !params[:owner].keys.include?("pet_ids")
     params[:owner]["pet_ids"] = []
     end
@@ -42,4 +45,4 @@ class OwnersController < ApplicationController
     end
     redirect "owners/#{@owner.id}"
   end
-end 
+end
